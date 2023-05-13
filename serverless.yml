@@ -1,0 +1,83 @@
+service: crud-serverless-users
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: arn:aws:dynamodb:us-east-1:950291568807:table/usersTable  
+custom:
+  tableName: 'usersTable'
+  dynamodb:
+  # If you only want to use DynamoDB Local in some stages, declare them here
+    stages:
+      - dev
+    start:
+      port: 8000
+      inMemory: true
+      migrate: true  
+     
+plugins:
+  - serverless-offline
+  - serverless-dynamodb-local
+
+package:
+  individually: true
+  patterns:
+    - "!.dynamodb"
+    - "!.node_modules"
+functions:
+  get-users:
+    handler: getUsers/handler.getUsers
+    events:
+      - http:
+          path: users
+          method: GET
+  get-user:
+    handler: getUsers/handler.getUser
+    events:
+      - http:
+          method: GET
+          path: user/{userId}
+  create-users:
+    handler: createUsers/handler.createUsers
+    events:
+      - http:
+          method: POST
+          path: users
+  update-user:
+    handler: updateUsers/handler.updateUsers
+    events:
+      - http:
+          method: PATCH
+          path: user/{userId}
+  delete-user:
+    handler: deleteUsers/handler.deleteUsers
+    events:
+      - http:
+          method: DELETE
+          path: user/{userId}                  
+resources:
+  Resources:
+    UsersDynamoDBTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: pk
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: pk
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:custom.tableName}
