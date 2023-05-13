@@ -56,7 +56,7 @@ functions:
     handler: createUsers/handler.createUsers
     package:
       patterns:
-        - "createUsers/handler.createUsers"      
+        - "createUsers/handler.js"      
     events:
       - http:
           method: POST
@@ -65,7 +65,7 @@ functions:
     handler: updateUsers/handler.updateUsers
     package:
       patterns:
-        - "updateUsers/handler.updateUsers"      
+        - "updateUsers/handler.js"      
     events:
       - http:
           method: PATCH
@@ -74,7 +74,7 @@ functions:
     handler: deleteUsers/handler.deleteUsers
     package:
       patterns:
-        - "deleteUsers/handler.deleteUsers"       
+        - "deleteUsers/handler.js"       
     events:
       - http:
           method: DELETE
