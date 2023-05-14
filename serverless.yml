@@ -31,35 +31,52 @@ plugins:
 package:
   individually: true
   patterns:
-    - "!.dynamodb"
-    - "!.node_modules"
+#    - "!.dynamodb"
+#    - "!.node_modules"    
+    - "!*/**"
+    - "!**"    
 functions:
   get-users:
     handler: getUsers/handler.getUsers
+    package:
+      patterns:
+        - "getUsers/handler.js"    
     events:
       - http:
           path: users
           method: GET
   get-user:
     handler: getUsers/handler.getUser
+    package:
+      patterns:
+        - "getUsers/handler.js"    
     events:
       - http:
           method: GET
           path: user/{userId}
   create-users:
     handler: createUsers/handler.createUsers
+    package:
+      patterns:
+        - "createUsers/handler.js"      
     events:
       - http:
           method: POST
           path: users
   update-user:
     handler: updateUsers/handler.updateUsers
+    package:
+      patterns:
+        - "updateUsers/handler.js"      
     events:
       - http:
           method: PATCH
           path: user/{userId}
   delete-user:
     handler: deleteUsers/handler.deleteUsers
+    package:
+      patterns:
+        - "deleteUsers/handler.js"       
     events:
       - http:
           method: DELETE
