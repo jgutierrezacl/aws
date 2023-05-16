@@ -1,3 +1,4 @@
+//const aws = require('@aws-sdk/client-dynamodb');
 const aws = require('aws-sdk');
 
 let dynamonDBClientParams ={};

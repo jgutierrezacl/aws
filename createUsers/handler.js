@@ -1,5 +1,5 @@
 const aws = require('aws-sdk');
-const random = require('crypto')
+const ramdon = require('crypto')
 let dynamonDBClientParams ={};
 
 if (process.env.IS_OFFLINE){
@@ -15,7 +15,7 @@ const dynamonDB = new aws.DynamoDB.DocumentClient(dynamonDBClientParams);
 
 const createUsers = async (event, context) => {
 
-    const id = random.randomUUID();
+    const id = ramdon.randomUUID();
     let userBody = JSON.parse(event.body);
     userBody.pk = id;
 

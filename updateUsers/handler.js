@@ -1,4 +1,6 @@
+//const aws = require('@aws-sdk/client-dynamodb');
 const aws = require('aws-sdk');
+
 let dynamonDBClientParams ={};
 
 if (process.env.IS_OFFLINE){
@@ -20,11 +22,10 @@ console.log('body', event.body);
     let params = {
         TableName: 'usersTable',
         Key: { pk : userId },
-        UpdateExpression: 'set #nombre = :nombre',
-        ExpressionAttributeNames: { '#nombre' : 'nombre'},
-        ExpressionAttributeValues: { ':nombre' : userBody.nombre},
-        ReturnValues: 'ALL_NEW'
-        
+        UpdateExpression: 'set #name = :name, #age = :age',
+        ExpressionAttributeNames: { '#name' : 'name', '#age' : 'age'},
+        ExpressionAttributeValues: { ':name' : userBody.name, ':age' : userBody.age},        
+        ReturnValues: 'ALL_NEW'       
     };
     console.log(params);
     try {
